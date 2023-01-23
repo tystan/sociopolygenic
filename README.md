@@ -1,2 +1,2 @@
 # sociopolygenic
-R code to produce the bootstrapped GLMM confidence intervals of adiposity outcomes based on socioeconomic (dis)advantage
+R code to produce the bootstrapped GLMM (generalised linear mixed models) confidence intervals of longitudinal adiposity outcomes based on socioeconomic (dis)advantage
