@@ -44,105 +44,136 @@ toc() # ~2 sec
 
 # ---- consts ----
 
+alpha <- 0.05
+
 sep5tile_lvls <- as.character(1:5)
 age_cat_lvls <- c("2-3", "4-5", "6-7", "8-9", "10-11", "12-13", "14+")
 
 # ---- read_dat ----
 
-long <- read.csv("long_child_prs_data.csv")
+long <- read.csv("dat/long_child_prs_data.csv")
+
+
+
+
 long$age_cat <- factor(long$age_cat, levels = age_cat_lvls)
+long$age_cat <- relevel(factor(long$age_cat), ref = "2-3")
 long$ovob <- factor(long$ovob)
 
 # cut continuous variables into quintiles
 long <- 
   long %>%
   group_by(wave) %>%
-  mutate(sep5tile = ntile(sep, 5)) %>%
-  ungroup()
-long <- 
-  long %>%
-  group_by(wave) %>%
-  mutate(seifa5tile = ntile(seifa, 5)) %>%
-  ungroup()
-long <- 
-  long %>%
-  group_by(wave) %>%
-  mutate(prs5tile = ntile(prs, 5)) %>%
+  mutate(
+    sep5tile = ntile(sep, 5),
+    seifa5tile = ntile(seifa, 5),
+    prs5tile = ntile(prs, 5)
+  ) %>%
   ungroup()
 
-long$sep5tile <- factor(long$sep5tile, levels = sep5tile_lvls)
+long$sep5tile   <- factor(long$sep5tile,   levels = sep5tile_lvls)
 long$seifa5tile <- factor(long$seifa5tile, levels = sep5tile_lvls)
-long$prs5tile <- factor(long$prs5tile, levels = sep5tile_lvls)
+long$prs5tile   <- factor(long$prs5tile,   levels = sep5tile_lvls)
 
-dat_lite <- long %>% dplyr::select(hicid, sep5tile, age_cat, ovob)
-dat_lite <- na.omit(dat_lite)
-dat_lite$age_cat <- factor(dat_lite$age_cat, levels = age_cat_lvls)
-dat_lite$age_cat <- relevel(factor(dat_lite$age_cat), ref = "2-3")
+dat_lite <- 
+  long %>% 
+  dplyr::select(hicid, ovob, bmi, age_cat, sep5tile, seifa5tile, prs5tile)
 
-# ---- model_Child_zSEP ----
 
-dat_lite <-
+# ---- model_ovob_child_zSEP ----
+
+dat_mod1_ovo_chi_sep <-
   dat_lite %>%
+  select(hicid, ovob, age_cat, sep5tile) %>%
   arrange(hicid, age_cat, sep5tile)
+
+dat_mod1_ovo_chi_sep <- na.omit(dat_mod1_ovo_chi_sep)
+nrow(dat_mod1_ovo_chi_sep)
+
+# odds ratios
+# research question - does change in risk of overweight/obesity (OVOB) across 
+# childhood differ by SES?
+mod1 <- 
+  glmmTMB(
+    # ovob ~ age_cat * sep5tile + (1 | hicid),
+    ovob ~ age_cat * sep5tile + (1 | hicid),
+    family = binomial(), 
+    data = dat_mod1_ovo_chi_sep,
+    # control = glmmTMBControl(parallel = 4),
+    # REML = TRUE,
+    # verbose = TRUE
+  )
+summary(mod1)
+
+
+dat_mod2_ovo_chi_sep <-
+  dat_lite %>%
+  select(hicid, ovob, age_cat, sep5tile, prs5tile) %>%
+  arrange(hicid, age_cat, sep5tile, prs5tile)
+
+dat_mod2_ovo_chi_sep <- na.omit(dat_mod2_ovo_chi_sep)
+nrow(dat_mod2_ovo_chi_sep)
 
 # odds ratios
 # research question - does change in risk of overweight/obesity (OVOB) across 
 # childhood differ by SES?
 mod2 <- 
   glmmTMB(
-    ovob ~ age_cat * sep5tile + (1 | hicid),
+    ovob ~ (age_cat + sep5tile + prs5tile)^2 + (1 | hicid),
     family = binomial(), 
-    data = dat_lite,
+    data = dat_mod2_ovo_chi_sep,
     # control = glmmTMBControl(parallel = 4),
     # REML = TRUE,
     # verbose = TRUE
   )
 summary(mod2)
 
+
+
 # ---- check_preds ----
 
-newdat_base <- dat_lite 
+newdat_base <- dat_mod2_ovo_chi_sep 
 newdat_basep <- predict(mod2, type = "response", allow.new.levels = TRUE) # re.form=NULL
 newdat_base <- cbind(newdat_base, newdat_basep)
 newdat_base <-
   newdat_base %>%
-  group_by(sep5tile, age_cat) %>%
+  group_by(sep5tile, prs5tile, age_cat) %>%
   summarise(pred_p = mean(newdat_basep), .groups = "drop") %>%
-  arrange(sep5tile, age_cat)
+  arrange(sep5tile, prs5tile, age_cat)
 preds <- 
   newdat_base %>% 
-  dplyr::select(age_cat, sep5tile, pred_p) %>%
+  dplyr::select(age_cat, sep5tile, prs5tile, pred_p) %>%
   mutate(type = "predicted")
 
 # compare with observed
 check <- 
-  dat_lite %>%
-  group_by(age_cat, sep5tile) %>%
+  dat_mod2_ovo_chi_sep %>%
+  group_by(age_cat, sep5tile, prs5tile) %>%
   summarise(freq = sum(ovob == "1"), n = n(), .groups = "drop") %>%
   mutate(pred_p = freq / n)
 check <- 
   check %>% 
-  dplyr::select(age_cat, sep5tile, pred_p) %>%
+  dplyr::select(age_cat, sep5tile, prs5tile, pred_p) %>%
   mutate(type = "observed")
 
 rbind.data.frame(preds, check) %>%
   ggplot(data = ., aes(x = age_cat, y = pred_p, group = type)) +
   geom_line(aes(color = type)) +
-  facet_wrap(~sep5tile) +
+  facet_grid(prs5tile ~ sep5tile) +
   theme_bw()
 
 other_p_dat <-
   inner_join(
     newdat_base,
     check %>% rename(obs_p = pred_p) %>% select(-type),
-    c("age_cat", "sep5tile")
+    c("age_cat", "sep5tile", "prs5tile")
   )
 
 
 # ---- boot_setup ----
 
 n_map <-
-  dat_lite %>%
+  dat_mod2_ovo_chi_sep %>%
   arrange(hicid) %>%
   group_by(hicid) %>%
   summarise(n = n()) %>%
@@ -168,13 +199,13 @@ n_map_samp$cum_n[nrow(n_map_samp)]
 
 inner_join(
   n_map_samp %>% select(hicid),
-  dat_lite,
+  dat_mod2_ovo_chi_sep,
   "hicid"
 )
 
 # ---- boot_fns ----
 
-sample_dat_with_replace <- function() {
+sample_dat_with_replace <- function(x = NULL) {
   
   rand_id_rows <- sample(x = n_id, size = n_id_samp, replace = TRUE)
   
@@ -185,7 +216,7 @@ sample_dat_with_replace <- function() {
   
   inner_join(
     n_map_samp %>% select(hicid),
-    dat_lite,
+    dat_mod2_ovo_chi_sep,
     "hicid"
   )
   
@@ -193,6 +224,7 @@ sample_dat_with_replace <- function() {
 
 # test
 sample_dat_with_replace()
+sample_dat_with_replace(23423)
 
 # ---- bootstrap_fns ----
 
@@ -201,13 +233,13 @@ get_pred_by_cats <- function(mod, dat) {
   pred_val <- predict(mod, type = "response")
   pred_dat <- cbind.data.frame(pred_val, dat)
   pred_dat %>%
-    group_by(sep5tile, age_cat) %>%
+    group_by(sep5tile, prs5tile, age_cat) %>%
     summarise(pred_p = mean(pred_val), .groups = "drop") %>%
-    arrange(sep5tile, age_cat)
+    arrange(sep5tile, prs5tile, age_cat)
 }
 
 # test
-all(get_pred_by_cats(mod2, dat_lite) == newdat_base)
+all(get_pred_by_cats(mod2, dat_mod2_ovo_chi_sep) == newdat_base)
 
 
 # ---- mod_sed_boot ----
@@ -216,9 +248,10 @@ fit_glmm_tmb <- function(x) {
   mod_fit <-
     try({
       glmmTMB(
-        ovob ~ age_cat * sep5tile + (1 | hicid),
+        # ovob ~ age_cat * sep5tile + (1 | hicid),
+        ovob ~ (age_cat + sep5tile + prs5tile)^2 + (1 | hicid),
         family = binomial(), 
-        data = x,
+        data = x
         # control = glmmTMBControl(parallel = 4),
         # REML = TRUE,
         # verbose = TRUE
@@ -234,7 +267,10 @@ fit_glmm_tmb <- function(x) {
 }
 
 # test
-all(get_pred_by_cats(fit_glmm_tmb(dat_lite), dat_lite) == newdat_base)
+all(
+  get_pred_by_cats(fit_glmm_tmb(dat_mod2_ovo_chi_sep), dat_mod2_ovo_chi_sep) == 
+    newdat_base
+)
 
 # ---- do_bootstrap ----
 
@@ -279,18 +315,16 @@ boot_df_preds <-
       mutate(boot = as.integer(i))
   }
 
-arrow::write_parquet(boot_df_preds, sink = "res/boot_df_preds.parquet")
+arrow::write_parquet(boot_df_preds, sink = "res/mod2_ovo_chi_sep_boot_df_preds.parquet")
 
 
 # ---- plot_results ----
 
-boot_df_preds <- arrow::read_parquet("res/boot_df_preds.parquet")
-
-alpha <- 0.05
+boot_df_preds <- arrow::read_parquet("res/mod2_ovo_chi_sep_boot_df_preds.parquet")
 
 boot_df_ci <-
   boot_df_preds %>%
-  group_by(sep5tile, age_cat) %>%
+  group_by(sep5tile, prs5tile, age_cat) %>%
   summarise(
     n_boot = n(), 
     mean_p = mean(pred_p  ), 
@@ -299,71 +333,53 @@ boot_df_ci <-
     up_p = quantile(pred_p, 1 - alpha / 2), 
     .groups = "drop"
   ) %>%
-  arrange(sep5tile, age_cat)
+  arrange(sep5tile, prs5tile, age_cat)
+
 
 boot_df_ci %>%
+  rename(`PRS quintile` = prs5tile) %>%
   ggplot(., aes(x = age_cat, group = sep5tile, fill = sep5tile)) +
-  geom_ribbon(aes(ymin = lo_p, ymax = up_p), alpha = 0.25) +
+  geom_ribbon(aes(ymin = lo_p, ymax = up_p), alpha = 0.1) +
+  facet_wrap(`PRS quintile` ~ ., labeller = "label_both", ncol = 5) +
   geom_line(
-    inherit.aes = FALSE,
-    data = other_p_dat,
-    aes(x = age_cat, y = pred_p, group = sep5tile, col = sep5tile)
+    aes(x = age_cat, y = mean_p, group = sep5tile, col = sep5tile),
+    alpha = 0.6
+  ) +
+  geom_point(
+    aes(x = age_cat, y = mean_p, col = sep5tile),
+    alpha = 0.9
   ) +
   scale_fill_viridis_d(option = "C") +
   scale_colour_viridis_d(option = "C") +
-  theme_classic() 
-
-boot_df_ci %>%
-  ggplot(., aes(x = age_cat, group = sep5tile, fill = sep5tile)) +
-  geom_ribbon(aes(ymin = lo_p, ymax = up_p), alpha = 0.1) +
-  facet_wrap(~ sep5tile, ncol = 5) +
-  geom_line(
-    inherit.aes = FALSE,
-    data = other_p_dat,
-    aes(x = age_cat, y = pred_p, group = sep5tile, col = sep5tile)
+  labs(
+    col = "SEP\nquintile",
+    fill = "SEP\nquintile",
+    x = "Age category",
+    y = "Probability"
   ) +
-  geom_point(
-    inherit.aes = FALSE,
-    data = other_p_dat,
-    aes(x = age_cat, y = pred_p, col = sep5tile)
-  ) +
-  scale_fill_viridis_d(option = "C") +
-  scale_colour_viridis_d(option = "C") +
-  # geom_line(
-  #   inherit.aes = FALSE,
-  #   data = other_p_dat,
-  #   aes(x = age_cat, y = obs_p, group = sep5tile),
-  #   col = "black", 
-  #   alpha = 0.25
-  # ) +
   theme_bw() +
-  theme(legend.position = "none") 
+  theme(
+    axis.text = element_text(size = 8)
+  )
 
-boot_df_ci %>%
-  ggplot(., aes(x = sep5tile, group = age_cat, fill = age_cat)) +
-  geom_ribbon(aes(ymin = lo_p, ymax = up_p), alpha = 0.1) +
-  facet_wrap(~ age_cat, ncol = 5) +
-  geom_line(
-    inherit.aes = FALSE,
-    data = other_p_dat,
-    aes(x = sep5tile, y = pred_p, group = age_cat, col = age_cat)
-  ) +
-  geom_point(
-    inherit.aes = FALSE,
-    data = other_p_dat,
-    aes(x = sep5tile, y = pred_p, col = age_cat)
-  ) +
-  scale_fill_viridis_d(option = "D") +
-  scale_colour_viridis_d(option = "D") +
-  # geom_line(
-  #   inherit.aes = FALSE,
-  #   data = other_p_dat,
-  #   aes(x = age_cat, y = obs_p, group = sep5tile),
-  #   col = "black", 
-  #   alpha = 0.25
-  # ) +
-  theme_bw() +
-  theme(legend.position = "none") 
+
+
+ggsave(
+  filename = "fig/supp_fig_6.png",
+  width = 12,
+  height = 7,
+  dpi = 300
+)
+
+
+cat(
+  paste0(
+    "Supp Fig 6: Overweight/obese probability across childhood by family ",
+    "disadvantage (SEP) quintile (1=most, 5=least disadvantage), stratified ",
+    "by PRS quintile (1=lowest, 5=highest risk)"
+  ),
+  "\n"
+)
 
 cat("Table: Raw and predicted probabilties on complete data\n")
 
