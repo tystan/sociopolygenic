@@ -40,4 +40,8 @@ vignettes/*.pdf
 
 # no raw data
 dat/*
+# no pre-processing scripts
+r/0_*\.R
+# no testing scripts
+test/*
 
