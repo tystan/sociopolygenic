@@ -1,0 +1,133 @@
+---
+title: "Supplementary material"
+author: "Ty Stanford and Dot Dumuid"
+date: "`r format(Sys.time(), '%d %b %Y')`"
+format: 
+  pdf:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    highlight-style: atom-one
+    classoption: landscape
+editor: source
+---
+
+
+
+
+```{R}
+#| include: false
+
+
+knitr::read_chunk('r/2_plot_results.R')
+```
+
+\newpage
+
+
+
+```{R, libs}
+#| include: false
+
+```
+
+```{R, consts}
+#| include: false
+
+```
+
+
+\newpage
+
+# Child data
+
+## BMI models
+
+
+\newpage
+
+### SEIFA predictor
+
+#### Model details
+
+
+```{R}
+#| echo: false
+
+mod_txt <- readLines("res/mod_chi_bmi_sei.txt")
+cat(stri_wrap(mod_txt, normalize = FALSE, width = 100), sep = "\n")
+
+
+```
+
+
+
+#### Table
+
+```{R, chi_bmi_sei_tab}
+#| echo: false
+#| tbl-cap: "Estimated BMI (95% CI) across childhood by neighbourhood disadvantage (SEIFA) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
+```
+
+```{R, chi_bmi_sei_plot}
+#| include: false
+```
+
+
+
+\newpage
+
+### SEP predictor
+
+
+#### Model details
+
+
+```{R}
+#| echo: false
+
+mod_txt <- readLines("res/mod_chi_bmi_sep.txt")
+cat(stri_wrap(mod_txt, normalize = FALSE, width = 100), sep = "\n")
+
+
+```
+
+
+
+#### Table
+
+
+```{R, chi_bmi_sep_tab}
+#| echo: false
+#| tbl-cap: "Estimated BMI (95% CI) across childhood by family disadvantage (SEP) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
+```
+
+
+```{R, chi_bmi_sep_plot}
+#| include: false
+```
+
+
+### Figures
+
+```{R, chi_bmi_plots}
+#| fig-width: 12
+#| fig-height: 7
+#| echo: false
+#| fig-cap: "Association of SEIFA neighbourhood disadvantage (Panel A) and SEP family disadvantage (Panel B) with BMI across childhood. In all cases quintile 1 represents the most disadvantage."
+
+```
+
+
+
+\newpage
+
+
+# Session info
+
+
+```{R}
+sessionInfo()
+```
+
+
