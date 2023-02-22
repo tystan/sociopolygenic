@@ -39,7 +39,7 @@ fig3_y_scale <- function() {
 
 # sei plot
 
-df_preds <- arrow::read_parquet("res/mod_bmi_chi_sei_preds.parquet")
+df_preds <- arrow::read_parquet("res/mod_chi_bmi_sei_preds.parquet")
 
 # assuming equal gender and prs quintile weightings, 
 # plain average is what we are after
@@ -53,7 +53,7 @@ df_preds <-
   arrange(sei, prs, age_cat)
 
 
-boot_df_preds <- arrow::read_parquet("res/mod_bmi_chi_sei_boot_preds.parquet")
+boot_df_preds <- arrow::read_parquet("res/mod_chi_bmi_sei_boot_preds.parquet")
 
 # assuming equal gender and prs quintile weightings, 
 # plain average is what we are after
@@ -89,7 +89,7 @@ tab_dat %>%
 
 # sei plot
 
-df_preds <- arrow::read_parquet("res/mod_bmi_chi_sei_preds.parquet")
+df_preds <- arrow::read_parquet("res/mod_chi_bmi_sei_preds.parquet")
 
 # assuming equal gender and prs quintile weightings, 
 # plain average is what we are after
@@ -103,7 +103,7 @@ df_preds <-
   arrange(sei, age_cat)
 
 
-boot_df_preds <- arrow::read_parquet("res/mod_bmi_chi_sei_boot_preds.parquet")
+boot_df_preds <- arrow::read_parquet("res/mod_chi_bmi_sei_boot_preds.parquet")
 
 # assuming equal gender and prs quintile weightings, 
 # plain average is what we are after
@@ -162,7 +162,7 @@ sei_plot <-
 
 # sep plot
 
-df_preds <- arrow::read_parquet("res/mod_bmi_chi_sep_preds.parquet")
+df_preds <- arrow::read_parquet("res/mod_chi_bmi_sep_preds.parquet")
 
 # assuming equal gender and prs quintile weightings, 
 # plain average is what we are after
@@ -176,7 +176,7 @@ df_preds <-
   arrange(sep, prs, age_cat)
 
 
-boot_df_preds <- arrow::read_parquet("res/mod_bmi_chi_sep_boot_preds.parquet")
+boot_df_preds <- arrow::read_parquet("res/mod_chi_bmi_sep_boot_preds.parquet")
 
 # assuming equal gender and prs quintile weightings, 
 # plain average is what we are after
@@ -211,7 +211,7 @@ tab_dat %>%
 
 # sep plot
 
-df_preds <- arrow::read_parquet("res/mod_bmi_chi_sep_preds.parquet")
+df_preds <- arrow::read_parquet("res/mod_chi_bmi_sep_preds.parquet")
 
 # assuming equal gender and prs quintile weightings, 
 # plain average is what we are after
@@ -226,7 +226,7 @@ df_preds <-
 
 
 
-boot_df_preds <- arrow::read_parquet("res/mod_bmi_chi_sep_boot_preds.parquet")
+boot_df_preds <- arrow::read_parquet("res/mod_chi_bmi_sep_boot_preds.parquet")
 
 # assuming equal gender and prs quintile weightings, 
 # plain average is what we are after
@@ -294,7 +294,7 @@ ggsave(
 
 # ---- supp_fig_6 ----
 
-boot_df_preds <- arrow::read_parquet("res/mod_ovo_chi_sep_boot_preds.parquet")
+boot_df_preds <- arrow::read_parquet("res/mod_chi_ovo_sep_boot_preds.parquet")
 
 boot_df_ci <-
   boot_df_preds %>%

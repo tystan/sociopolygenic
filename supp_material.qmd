@@ -19,7 +19,7 @@ editor: source
 #| include: false
 
 
-knitr::read_chunk('r/2_plot_results.R')
+knitr::read_chunk('r/2_compile_results.R')
 ```
 
 \newpage

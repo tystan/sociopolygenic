@@ -3,6 +3,14 @@ logistic mixed model (estimated using REML and nlminb optimizer) to predict ovo 
 The model's total explanatory power is substantial (conditional R2 = 0.91) and the part related to the fixed effects alone (marginal R2) is
 of 0.07
 
+
+Conditional model:
+ Groups   Name        Std.Dev. Corr  
+ hicid    (Intercept) 3.2539         
+          waveC       0.5533   0.650 
+ personid (Intercept) 4.1629         
+
+
 The model's intercept, corresponding to waveC = 0, sex = 0, age_cat = <30, sei = 1 and prs = 1, is at 0.94 (95% CI [-0.38, 2.26], p = 0.163).
 
 Parameter                 | Coefficient |         95% CI |        z |      Fit
@@ -79,13 +87,25 @@ sei [2] × prs [5]         |       -0.64 | [-1.64,  0.37] |    -1.24 |
 sei [3] × prs [5]         |       -0.77 | [-1.85,  0.31] |    -1.41 |         
 sei [4] × prs [5]         |       -0.86 | [-2.00,  0.29] |    -1.47 |         
 sei [5] × prs [5]         |       -0.92 | [-2.25,  0.41] |    -1.35 |         
-                          |        4.16 |                |          |         
-                          |        0.55 |                |          |         
-                          |        0.65 |                |          |         
-                          |        3.25 |                |          |         
-                          |             |                |          |         
 AICc                      |             |                |          | 10946.00
 R2 (conditional)          |             |                |          |     0.91
 R2 (marginal)             |             |                |          |     0.07
 Sigma                     |             |                |          |     1.00
 Log_loss                  |             |                |          |     0.14
+
+
+Analysis of Deviance Table (Type III Wald chisquare tests)
+
+Response: ovo
+              Chisq Df Pr(>Chisq)    
+(Intercept)  1.9444  1  0.1631882    
+waveC       93.3288  1  < 2.2e-16 ***
+sex         98.5484  1  < 2.2e-16 ***
+age_cat      1.1500  5  0.9495836    
+sei          1.4836  4  0.8295363    
+prs         22.7287  4  0.0001434 ***
+age_cat:sei  9.9731 20  0.9686572    
+age_cat:prs 22.7022 20  0.3036536    
+sei:prs      8.6296 16  0.9278803    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

@@ -3,6 +3,13 @@ logistic mixed model (estimated using REML and nlminb optimizer) to predict ovo 
 The model's total explanatory power is substantial (conditional R2 = 0.82) and the part related to the fixed effects alone (marginal R2) is
 of 0.08
 
+
+Conditional model:
+ Groups Name        Std.Dev. Corr  
+ hicid  (Intercept) 3.74017        
+        waveC       0.97417  0.762 
+
+
 The model's intercept, corresponding to sex = 0, age_cat = 2-3, sep = 1 and prs = 1, is at -1.51 (95% CI [-2.29, -0.72], p < .001).
 
 Parameter                 | Coefficient |         95% CI |     z |     Fit
@@ -87,12 +94,24 @@ sep [2] × prs [5]         |        0.60 | [-0.37,  1.56] |  1.22 |
 sep [3] × prs [5]         |        0.45 | [-0.68,  1.58] |  0.78 |        
 sep [4] × prs [5]         |       -0.08 | [-1.23,  1.07] | -0.14 |        
 sep [5] × prs [5]         |        0.14 | [-1.11,  1.40] |  0.23 |        
-                          |        0.76 |                |       |        
-                          |        3.74 |                |       |        
-                          |        0.97 |                |       |        
-                          |             |                |       |        
 AICc                      |             |                |       | 8515.38
 R2 (conditional)          |             |                |       |    0.82
 R2 (marginal)             |             |                |       |    0.08
 Sigma                     |             |                |       |    1.00
 Log_loss                  |             |                |       |    0.18
+
+
+Analysis of Deviance Table (Type III Wald chisquare tests)
+
+Response: ovo
+              Chisq Df Pr(>Chisq)    
+(Intercept) 14.1184  1  0.0001717 ***
+sex          0.9505  1  0.3295911    
+age_cat     44.8281  6  5.063e-08 ***
+sep          0.9855  4  0.9119840    
+prs          7.5741  4  0.1084839    
+age_cat:sep 24.7681 24  0.4184466    
+age_cat:prs 39.2668 24  0.0255990 *  
+sep:prs      8.5371 16  0.9312487    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

@@ -27,6 +27,7 @@ library("arrow")
 # tables of model parameters, summaries
 library("report")
 
+source("r/_global_funcs.R")
 
 # ---- check_parallel_comp ----
 
@@ -76,18 +77,7 @@ car::Anova(mod_chi_bmi_sep, type = "III")
 # output summary to text file
 sink("res/mod_chi_bmi_sep.txt")
 
-  report_model(mod_chi_bmi_sep); cat(".\n\n")
-  report_performance(mod_chi_bmi_sep); cat("\n")
-  report_intercept(mod_chi_bmi_sep); cat("\n\n")
-  # report_random(mod_chi_bmi_sep)
-  
-  mod_rep <- report(mod_chi_bmi_sep) # str(mod_rep)
-  mod_rep_df <- summary(as.data.frame(mod_rep)) # str(mod_rep_df)
-  mod_rep_df$df_error <- mod_rep_df$p <- mod_rep_df$df_error <- 
-    mod_rep_df$Effects <- mod_rep_df$Group <- mod_rep_df$Component <- 
-    mod_rep_df$Std_Coefficient <- NULL
-  
-  mod_rep_df
+  print_mod_results(mod_chi_bmi_sep)
   
 sink()
 
@@ -112,7 +102,7 @@ df_preds <-
   summarise(pred_p = mean(pred), .groups = "drop") %>%
   arrange(sep, prs, age_cat, sex)
 
-arrow::write_parquet(df_preds, sink = "res/mod_bmi_chi_sep_preds.parquet")
+arrow::write_parquet(df_preds, sink = "res/mod_chi_bmi_sep_preds.parquet")
 
 
 
@@ -346,5 +336,5 @@ boot_df_preds <-
       mutate(boot = as.integer(i))
   }
 
-arrow::write_parquet(boot_df_preds, sink = "res/mod_bmi_chi_sep_boot_preds.parquet")
+arrow::write_parquet(boot_df_preds, sink = "res/mod_chi_bmi_sep_boot_preds.parquet")
 

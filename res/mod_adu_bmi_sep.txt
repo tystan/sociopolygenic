@@ -3,6 +3,15 @@ linear mixed model (estimated using REML and nlminb optimizer) to predict bmi wi
 The model's total explanatory power is substantial (conditional R2 = 0.85) and the part related to the fixed effects alone (marginal R2) is
 of 0.09
 
+
+Conditional model:
+ Groups   Name        Std.Dev. Corr  
+ hicid    (Intercept) 2.76206        
+          waveC       0.46267  0.650 
+ personid (Intercept) 3.87633        
+ Residual             2.14040        
+
+
 The model's intercept, corresponding to waveC = 0, sex = 0, age_cat = <30, sep = 1 and prs = 1, is at 26.26 (95% CI [25.40, 27.11], p < .001).
 
 Parameter                 | Coefficient |         95% CI |         z |      Fit
@@ -79,13 +88,24 @@ sep [2] × prs [5]         |        0.02 | [-0.52,  0.56] |      0.07 |
 sep [3] × prs [5]         |       -0.25 | [-0.90,  0.40] |     -0.75 |         
 sep [4] × prs [5]         |       -0.20 | [-0.94,  0.53] |     -0.54 |         
 sep [5] × prs [5]         |       -0.27 | [-1.13,  0.59] |     -0.62 |         
-                          |        3.88 |                |           |         
-                          |        0.46 |                |           |         
-                          |        0.65 |                |           |         
-                          |        2.76 |                |           |         
-                          |        2.14 |                |           |         
-                          |             |                |           |         
 AICc                      |             |                |           | 73981.67
 R2 (conditional)          |             |                |           |     0.85
 R2 (marginal)             |             |                |           |     0.09
 Sigma                     |             |                |           |     2.14
+
+
+Analysis of Deviance Table (Type III Wald chisquare tests)
+
+Response: bmi
+                Chisq Df Pr(>Chisq)    
+(Intercept) 3607.2505  1  < 2.2e-16 ***
+waveC        240.7413  1  < 2.2e-16 ***
+sex           70.5204  1  < 2.2e-16 ***
+age_cat        1.5012  5     0.9129    
+sep            1.3256  4     0.8570    
+prs           59.0129  4  4.676e-12 ***
+age_cat:sep   17.3163 20     0.6323    
+age_cat:prs   21.9885 20     0.3411    
+sep:prs        8.1410 16     0.9446    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1

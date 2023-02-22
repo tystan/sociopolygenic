@@ -28,6 +28,8 @@ library("arrow")
 library("report")
 
 
+source("r/_global_funcs.R")
+
 # ---- check_parallel_comp ----
 
 # options(future.globals.maxSize = 500 * 1024 ^ 2) # = 500 MiB
@@ -77,21 +79,13 @@ mod_adu_bmi_sei <-
 summary(mod_adu_bmi_sei)
 car::Anova(mod_adu_bmi_sei, type = "III")
 
+
+
+
 # output summary to text file
 sink("res/mod_adu_bmi_sei.txt")
 
-  report_model(mod_adu_bmi_sei); cat(".\n\n")
-  report_performance(mod_adu_bmi_sei); cat("\n")
-  report_intercept(mod_adu_bmi_sei); cat("\n\n")
-  # report_random(mod_adu_bmi_sei)
-  
-  mod_rep <- report(mod_adu_bmi_sei) # str(mod_rep)
-  mod_rep_df <- summary(as.data.frame(mod_rep)) # str(mod_rep_df)
-  mod_rep_df$df_error <- mod_rep_df$p <- mod_rep_df$df_error <- 
-    mod_rep_df$Effects <- mod_rep_df$Group <- mod_rep_df$Component <- 
-    mod_rep_df$Std_Coefficient <- NULL
-  
-  mod_rep_df
+  print_mod_results(mod_adu_bmi_sei)
 
 sink()
 
@@ -117,7 +111,7 @@ df_preds <-
   summarise(pred_p = mean(pred), .groups = "drop") %>%
   arrange(sei, prs, age_cat, sex)
 
-arrow::write_parquet(df_preds, sink = "res/mod_bmi_adu_sei_preds.parquet")
+arrow::write_parquet(df_preds, sink = "res/mod_adu_bmi_sei_preds.parquet")
 
 
 # age_wave <-
@@ -376,5 +370,5 @@ boot_df_preds <-
       mutate(boot = as.integer(i))
   }
 
-arrow::write_parquet(boot_df_preds, sink = "res/mod_bmi_adu_sei_boot_preds.parquet")
+arrow::write_parquet(boot_df_preds, sink = "res/mod_adu_bmi_sei_boot_preds.parquet")
 
