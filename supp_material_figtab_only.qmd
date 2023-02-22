@@ -3,7 +3,7 @@ title: "Supplementary material"
 author: "Ty Stanford and Dot Dumuid"
 subtitle: "Socioeconomic disadvantage amplifies polygenic risk of overweight: A longitudinal population cohort study spanning childhood and mid-adulthood"
 format: 
-  pdf:
+  docx:
     toc: true
     toc-depth: 4
     number-sections: true
@@ -46,12 +46,6 @@ knitr::read_chunk('r/2_compile_results.R')
 
 ## SEIFA predictor
 
-### Model details
-
-
-```{R}
-print_mod_text("res/mod_chi_bmi_sei.txt")
-```
 
 
 
@@ -79,12 +73,6 @@ print_mod_text("res/mod_chi_bmi_sei.txt")
 ## SEP predictor
 
 
-### Model details
-
-
-```{R}
-print_mod_text("res/mod_chi_bmi_sep.txt")
-```
 
 
 
@@ -134,12 +122,6 @@ print_mod_text("res/mod_chi_bmi_sep.txt")
 
 ## SEIFA predictor
 
-### Model details
-
-
-```{R}
-print_mod_text("res/mod_chi_ovo_sei.txt")
-```
 
 
 
@@ -167,13 +149,6 @@ print_mod_text("res/mod_chi_ovo_sei.txt")
 
 ## SEP predictor
 
-
-### Model details
-
-
-```{R}
-print_mod_text("res/mod_chi_ovo_sep.txt")
-```
 
 
 
@@ -230,12 +205,6 @@ print_mod_text("res/mod_chi_ovo_sep.txt")
 
 ## SEIFA predictor
 
-### Model details
-
-
-```{R}
-print_mod_text("res/mod_adu_bmi_sei.txt")
-```
 
 
 
@@ -263,12 +232,6 @@ print_mod_text("res/mod_adu_bmi_sei.txt")
 ## SEP predictor
 
 
-### Model details
-
-
-```{R}
-print_mod_text("res/mod_adu_bmi_sep.txt")
-```
 
 
 
@@ -318,12 +281,6 @@ print_mod_text("res/mod_adu_bmi_sep.txt")
 
 ## SEIFA predictor
 
-### Model details
-
-
-```{R}
-print_mod_text("res/mod_adu_ovo_sei.txt")
-```
 
 
 
@@ -351,13 +308,6 @@ print_mod_text("res/mod_adu_ovo_sei.txt")
 
 ## SEP predictor
 
-
-### Model details
-
-
-```{R}
-print_mod_text("res/mod_adu_ovo_sep.txt")
-```
 
 
 
