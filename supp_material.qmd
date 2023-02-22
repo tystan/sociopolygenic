@@ -1,11 +1,11 @@
 ---
 title: "Supplementary material"
 author: "Ty Stanford and Dot Dumuid"
-date: "`r format(Sys.time(), '%d %b %Y')`"
+subtitle: "Socioeconomic disadvantage amplifies polygenic risk of overweight: A longitudinal population cohort study spanning childhood and mid-adulthood"
 format: 
   pdf:
     toc: true
-    toc-depth: 3
+    toc-depth: 4
     number-sections: true
     highlight-style: atom-one
     classoption: landscape
@@ -39,78 +39,80 @@ knitr::read_chunk('r/2_compile_results.R')
 
 \newpage
 
-# Child data
-
-## BMI models
+# Child data: BMI models
 
 
 \newpage
 
-### SEIFA predictor
+## SEIFA predictor
 
-#### Model details
+### Model details
 
 
 ```{R}
-#| echo: false
-
-mod_txt <- readLines("res/mod_chi_bmi_sei.txt")
-cat(stri_wrap(mod_txt, normalize = FALSE, width = 100), sep = "\n")
-
-
+print_mod_text("res/mod_chi_bmi_sei.txt")
 ```
 
 
 
-#### Table
+### Table and figure by PRS
 
-```{R, chi_bmi_sei_tab}
+```{R, chi_bmi_prs_sei_tab}
 #| echo: false
 #| tbl-cap: "Estimated BMI (95% CI) across childhood by neighbourhood disadvantage (SEIFA) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
 ```
 
-```{R, chi_bmi_sei_plot}
-#| include: false
+
+```{R, chi_bmi_prs_sei_fig}
+#| fig-width: 15
+#| fig-height: 7
+#| echo: false
+#| fig-cap: "Estimated BMI (95% CI) across childhood by neighbourhood disadvantage (SEIFA) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
 ```
+
+
 
 
 
 \newpage
 
-### SEP predictor
+## SEP predictor
 
 
-#### Model details
+### Model details
 
 
 ```{R}
-#| echo: false
-
-mod_txt <- readLines("res/mod_chi_bmi_sep.txt")
-cat(stri_wrap(mod_txt, normalize = FALSE, width = 100), sep = "\n")
-
-
+print_mod_text("res/mod_chi_bmi_sep.txt")
 ```
 
 
 
-#### Table
+### Table and figure by PRS
 
 
-```{R, chi_bmi_sep_tab}
+```{R, chi_bmi_prs_sep_tab}
 #| echo: false
 #| tbl-cap: "Estimated BMI (95% CI) across childhood by family disadvantage (SEP) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
 ```
 
 
-```{R, chi_bmi_sep_plot}
-#| include: false
+```{R, chi_bmi_prs_sep_fig}
+#| fig-width: 15
+#| fig-height: 7
+#| echo: false
+#| fig-cap: "Estimated BMI (95% CI) across childhood by family disadvantage (SEP) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
 ```
 
 
-### Figures
 
-```{R, chi_bmi_plots}
+
+\newpage
+
+
+## Marginal SEIFA and SEP Figures
+
+```{R, chi_bmi_plot}
 #| fig-width: 12
 #| fig-height: 7
 #| echo: false
@@ -123,10 +125,105 @@ cat(stri_wrap(mod_txt, normalize = FALSE, width = 100), sep = "\n")
 \newpage
 
 
+
+# Child data: Probability of overweight/obese models
+
+
+\newpage
+
+
+## SEIFA predictor
+
+### Model details
+
+
+```{R}
+print_mod_text("res/mod_chi_ovo_sei.txt")
+```
+
+
+
+### Table and figure by PRS
+
+```{R, chi_ovo_prs_sei_tab}
+#| echo: false
+#| tbl-cap: "Estimated probability of overweight/obese (95% CI) across childhood by neighbourhood disadvantage (SEIFA) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
+```
+
+
+```{R, chi_ovo_prs_sei_fig}
+#| fig-width: 15
+#| fig-height: 7
+#| echo: false
+#| fig-cap: "Estimated probability of overweight/obese (95% CI) across childhood by neighbourhood disadvantage (SEIFA) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
+```
+
+
+
+
+
+
+\newpage
+
+## SEP predictor
+
+
+### Model details
+
+
+```{R}
+print_mod_text("res/mod_chi_ovo_sep.txt")
+```
+
+
+
+### Table and figure by PRS
+
+
+```{R, chi_ovo_prs_sep_tab}
+#| echo: false
+#| tbl-cap: "Estimated probability of overweight/obese (95% CI) across childhood by family disadvantage (SEP) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
+```
+
+```{R, chi_ovo_prs_sep_fig}
+#| fig-width: 15
+#| fig-height: 7
+#| echo: false
+#| fig-cap: "Estimated probability of overweight/obese (95% CI) across childhood by family disadvantage (SEP) quintile (1=most, 5=least disadvantage), stratified by PRS quintile (1=lowest, 5=highest risk)"
+```
+
+
+
+
+
+\newpage
+
+## Marginal SEIFA and SEP Figures
+
+```{R, chi_ovo_plot}
+#| fig-width: 12
+#| fig-height: 7
+#| echo: false
+#| fig-cap: "Association of SEIFA neighbourhood disadvantage (Panel A) and SEP family disadvantage (Panel B) with probability of overweight/obese across childhood. In all cases quintile 1 represents the most disadvantage."
+
+```
+
+
+
+
+
+
+
+
+
+\newpage
+
+
 # Session info
 
 
 ```{R}
+format(Sys.time(), '%d-%b-%Y')
 sessionInfo()
 ```
 
