@@ -13,7 +13,19 @@ R code to produce the bootstrapped GLMM (generalised linear mixed models) confid
 * Full supplementary file (model details incl.): [supp_material.pdf](https://github.com/tystan/sociopolygenic/blob/main/supp_material.pdf) document
 * Figure and table only supplementary file: [supp_material_figtab_only.docx](https://github.com/tystan/sociopolygenic/blob/main/supp_material_figtab_only.docx) document
 
+Here is a summary of the generalized linear mixed models (GLMMs) fit:
 
+
+| Cohort  |  Outcome | SES variable   |  Response (link fn)  |`glmmTMB` model formula  |
+|----|-----|------|------|------|
+| Childhood  |  BMI  |  SEIFA  | Gaussian (identity)  |  `bmi ~ sex + (age + prs + sei)^2 + (1 + wave|pid)`   |
+| Childhood  |  BMI  |  SEP  | Gaussian (identity)  |  `bmi ~ sex + (age + prs + sep)^2 + (1 + wave|pid)`   |
+| Childhood  |  Overweight/obese  |  SEIFA  | Binomial (log-odds)  |  `ovo ~ sex + (age + prs + sei)^2 + (1 + wave|pid)`   |
+| Childhood  |  Overweight/obese  |  SEP  | Binomial (log-odds)  |  `ovo ~ sex + (age + prs + sep)^2 + (1 + wave|pid)`   |
+| Adult  |  BMI  |  SEIFA  | Gaussian (identity)  |  `bmi ~ sex + wave + (age + prs + sei)^2 + (1 + wave|fam_id) + (1|pid)`   |
+| Adult  |  BMI  |  SEP  | Gaussian (identity)  |  `bmi ~ sex + wave + (age + prs + sep)^2 + (1 + wave|fam_id) + (1|pid)`   |
+| Adult  |  Overweight/obese  |  SEIFA  | Binomial (log-odds)  |  `ovo ~ sex + wave + (age + prs + sei)^2 + (1 + wave|fam_id) + (1|pid)`   |
+| Adult  |  Overweight/obese  |  SEP  | Binomial (log-odds)  |  `ovo ~ sex + wave + (age + prs + sep)^2 + (1 + wave|fam_id) + (1|pid)`   |
 
 
 ## Supplementary figures
