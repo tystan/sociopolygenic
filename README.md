@@ -18,14 +18,14 @@ Here is a summary of the generalized linear mixed models (GLMMs) fit:
 
 | Cohort  |  Outcome | SES variable   |  Response (link fn)  |`glmmTMB` model formula  |
 |----|-----|------|------|------|
-| Childhood  |  BMI  |  SEIFA  | Gaussian (identity)  |  `bmi ~ sex + (age + prs + sei)^2 + (1 + wave|pid)`   |
-| Childhood  |  BMI  |  SEP  | Gaussian (identity)  |  `bmi ~ sex + (age + prs + sep)^2 + (1 + wave|pid)`   |
-| Childhood  |  Overweight/obese  |  SEIFA  | Binomial (log-odds)  |  `ovo ~ sex + (age + prs + sei)^2 + (1 + wave|pid)`   |
-| Childhood  |  Overweight/obese  |  SEP  | Binomial (log-odds)  |  `ovo ~ sex + (age + prs + sep)^2 + (1 + wave|pid)`   |
-| Adult  |  BMI  |  SEIFA  | Gaussian (identity)  |  `bmi ~ sex + wave + (age + prs + sei)^2 + (1 + wave|fam_id) + (1|pid)`   |
-| Adult  |  BMI  |  SEP  | Gaussian (identity)  |  `bmi ~ sex + wave + (age + prs + sep)^2 + (1 + wave|fam_id) + (1|pid)`   |
-| Adult  |  Overweight/obese  |  SEIFA  | Binomial (log-odds)  |  `ovo ~ sex + wave + (age + prs + sei)^2 + (1 + wave|fam_id) + (1|pid)`   |
-| Adult  |  Overweight/obese  |  SEP  | Binomial (log-odds)  |  `ovo ~ sex + wave + (age + prs + sep)^2 + (1 + wave|fam_id) + (1|pid)`   |
+| Childhood  |  BMI  |  SEIFA  | Gaussian (identity)  |  `bmi ~ sex + (age + prs + sei)^2 + (1 + wave\|pid)`   |
+| Childhood  |  BMI  |  SEP  | Gaussian (identity)  |  `bmi ~ sex + (age + prs + sep)^2 + (1 + wave\|pid)`   |
+| Childhood  |  Overweight/obese  |  SEIFA  | Binomial (log-odds)  |  `ovo ~ sex + (age + prs + sei)^2 + (1 + wave\|pid)`   |
+| Childhood  |  Overweight/obese  |  SEP  | Binomial (log-odds)  |  `ovo ~ sex + (age + prs + sep)^2 + (1 + wave\|pid)`   |
+| Adult  |  BMI  |  SEIFA  | Gaussian (identity)  |  `bmi ~ sex + wave + (age + prs + sei)^2 + (1 + wave\|fam_id) + (1\|pid)`   |
+| Adult  |  BMI  |  SEP  | Gaussian (identity)  |  `bmi ~ sex + wave + (age + prs + sep)^2 + (1 + wave\|fam_id) + (1\|pid)`   |
+| Adult  |  Overweight/obese  |  SEIFA  | Binomial (log-odds)  |  `ovo ~ sex + wave + (age + prs + sei)^2 + (1 + wave\|fam_id) + (1\|pid)`   |
+| Adult  |  Overweight/obese  |  SEP  | Binomial (log-odds)  |  `ovo ~ sex + wave + (age + prs + sep)^2 + (1 + wave\|fam_id) + (1\|pid)`   |
 
 
 ## Supplementary figures
