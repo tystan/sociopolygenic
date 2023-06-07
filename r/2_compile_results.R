@@ -45,11 +45,23 @@ fig_adu_ovo_y_scale <- function() {
 }
 
 fig_sei_scale <- function() {
-  scale_fill_viridis_d(option = "D", aesthetics = c("colour", "fill"))
+  # scale_fill_viridis_d(option = "D", aesthetics = c("colour", "fill"))
+  # scale_fill_viridis_d(option = "H", aesthetics = c("colour", "fill"))
+  ### rev(colorBlindness::Blue2Orange12Steps[c(1, 3, 5, 9, 11)])
+  # col_pal <- c("#FF6619", "#FFCC65", "#99EDFF", "#3299FF", "#002AFF")
+  ### rev(colorBlindness::Blue2DarkRed18Steps[c(1, 3, 7, 13, 17)])
+  # col_pal <- c("#D8152F", "#FFAC75", "#99EAFF", "#2857FF", "#2400D8")
+  col_pal <- c("firebrick3", "darkorange2", "gold", "dodgerblue", "#2400D8")
+  scale_fill_manual(values = col_pal, aesthetics = c("colour", "fill"))
 }
 
 fig_sep_scale <- function() {
-  scale_fill_viridis_d(option = "C", aesthetics = c("colour", "fill"))
+  # scale_fill_viridis_d(option = "C", aesthetics = c("colour", "fill"))
+  ### colorBlindness::ModifiedSpectralScheme11Steps[c(1, 3, 5, 9, 11)]
+  # col_pal <- c("#A50021", "#F76D5E", "#FFE099", "#72D8FF", "#264CFF")
+  ### rev(colorBlindness::Blue2DarkOrange18Steps[c(1, 3, 7, 13, 17)])
+  col_pal <- c("#993D00", "#d88b47", "#55CCCC", "#006666", "#003333")
+  scale_fill_manual(values = col_pal, aesthetics = c("colour", "fill"))
 }
 
 fig_theme <- function() {
