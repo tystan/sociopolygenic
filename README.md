@@ -2,7 +2,7 @@
 
 R code to produce the bootstrapped GLMM (generalised linear mixed models) confidence intervals of longitudinal adiposity outcomes based on socioeconomic (dis)advantage as seen in the article:
 
-* ["Socioeconomic disadvantage amplifies polygenic risk of ..." (Kerr et al.)](https://linktocome.com)
+* [Kerr et al. (2024). _Socioeconomic disadvantage and polygenic risk of overweight in early and mid-life: a longitudinal population cohort study spanning 12 years_.](https://doi.org/10.1016/j.lanwpc.2024.101231)
 
 The repository structure is summarised further [down](https://github.com/tystan/sociopolygenic/blob/main/README.md#model-and-cohort-summaries) after an overview of the [models](https://github.com/tystan/sociopolygenic/blob/main/README.md#repository-structure) first.
 
